@@ -10,7 +10,7 @@ locale                   : "fr-FR"
 title                    : "Alexandre"
 title_separator          : "-"
 name                     : &name "Your Name"
-description              : &description "ma description"
+description              : &description "Etudiant en école d'ingénieur"
 url                      : https://alxndrtl.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "alxndrTL/academicpages.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Alexandre Torres--Leguet"
   avatar           : "profile.png"
-  bio              : "Your biography for the left-hand sidebar"
+  bio              : "Etudiant en école d'ingénieur."
   location         : "Montpellier"
   employer         :
   pubmed           :
