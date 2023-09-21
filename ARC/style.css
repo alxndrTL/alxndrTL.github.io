@@ -1,0 +1,290 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    color: #333;
+    padding: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    margin: 0;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.demo h3 {
+    text-align: center;
+    margin-bottom: 20px; /* Or adjust as needed for spacing between label and grids */
+    z-index: 2;
+}
+
+.demo {
+    border: 10px solid #e0e0e0;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+.test {
+    border: 10px solid #e0e0e0;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Change back to column to stack them vertically */
+}
+
+.test-grids {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    flex-direction: column;
+}
+
+.test h2 {
+    margin-bottom: 20px;
+}
+
+.test .grid.input {
+    margin-right: 0; /* Resetting any previous margin */
+}
+
+.test .grid.output {
+    order: 3;  /* This ensures the output grid appears below the arrow */
+    margin-left: 0;
+}
+
+.arrow {
+    font-size: 24px;
+    margin: 0 10px;  /* top and bottom margins */
+}
+
+.tasks {
+    display: flex;
+    justify-content: space-between;
+}
+
+.demo {
+    display: flex;
+    justify-content: space-evenly;  /* adjust from space-between to space-evenly */
+    align-items: center;
+    flex: 1;
+    margin-right: 20px;
+    box-sizing: border-box;
+}
+
+.demo:last-child {
+    margin-right: 0;
+}
+
+.grid {
+    display: grid;
+    margin: 0;
+    gap: 0.5px;
+    max-width: 300px;  /* Define a maximum size for your grid here */
+    max-height: 300px; /* Same here */
+    overflow: hidden; /* Hide cells that would go beyond this maximum size */
+}
+
+.grid > div {
+    width: 60px;
+    height: 60px;
+    background-color: #e0e0e0;
+}
+
+.input .grid > div:hover {
+    background-color: #007BFF;
+}
+
+.hidden {
+    display: none;
+}
+
+.demo {
+    position: relative;  /* Ensure the pseudo-element is positioned relative to the .demo container */
+}
+
+.tasks {
+    display: flex;
+    flex-wrap: wrap;  /* Allow demo blocks to wrap to the next line */
+    justify-content: start;  /* Align blocks to the start */
+}
+.demo {
+    margin-right: 20px;
+    margin-bottom: 20px; 
+}
+
+.demo {
+    position: relative;
+    width: calc(100% - 20px); /* set width for 2 demos per row */
+}
+
+/* For larger screens, the demos will be displayed horizontally */
+@media (min-width: 1300px) {  /* Adjust this threshold as needed */
+    .tasks {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: normal;  /* Resetting previous centering */
+    }
+    
+    .demo {
+        width: auto;  /* Resetting width */
+        flex: 1;
+        margin-right: 20px;
+        margin-bottom: 20; /* Resetting previous bottom margin */
+    }
+
+    .demo {
+        width: calc(33.333% - 20px);
+    }
+    
+    .demo:last-child {
+        margin-right: 0;
+    }
+}
+
+.demo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally since it's a column layout */
+}
+
+.demo h3 {
+    text-align: center;
+    margin-bottom: 20px; /* Or adjust as needed for spacing between label and grids */
+}
+
+.response-wrapper {
+    display: flex;
+    flex-direction: row;  /* ensures horizontal placement */
+    align-items: center;  /* centers items vertically if they have different heights */
+    flex-wrap: nowrap;    /* ensures no wrapping to the next line */
+    gap: 50px;            /* provides space between each grid (adjust as needed) */
+}
+
+.response-wrapper {
+    display: flex;
+    flex-wrap: wrap;  /* this allows items to wrap to the next line */
+    justify-content: flex-start; /* align items to the start of the flex container */
+    gap: 50px;  /* space between items */
+}
+
+.response-wrapper h4 {
+    text-align: center;
+    margin-bottom: 0.5rem;  /* Adjust based on your design preferences */
+}
+
+.response-wrapper > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* to center-align the label and grid vertically */
+    gap: 0.5rem;          /* spacing between label and grid */
+}
+
+.regenerate-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width:200px;
+    height:70px;
+    font-size: 20px;
+}
+
+.regenerate-btn:hover {
+    background-color: #0056b3;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; /* This will push the children to the ends */
+    width: 100%; /* Ensure the container takes the full width available */
+}
+
+.header-actions {
+    display: flex;
+    justify-content: flex-end; 
+    width: 100%;
+}
+
+.regenerate-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+.loading-spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 45px;
+    animation: spin 1s linear infinite;
+    display: none; /* Initially hidden */
+    margin: 0 auto; /* Center the spinner */
+}
+
+.grid > .black { background-color: #000; }
+.grid > .blue { background-color: #0074D9; }
+.grid > .red { background-color: #FF4136; }
+.grid > .green { background-color: #2ECC40; }
+.grid > .yellow { background-color: #FFDC00; }
+.grid > .grey { background-color: #AAAAAA; }
+.grid > .pink { background-color: #F012BE; }
+.grid > .orange { background-color: #FF851B; }
+.grid > .cyan { background-color: #7FDBFF; }
+.grid > .dark-red { background-color: #870C25; }
+
+.footer, .footer-container, .footer a {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* This ensures padding and border are included in the element's total width and height */
+}
+
+.footer {
+    background-color: #f7f7f7;
+    border-top: 1px solid #e1e1e1;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px; /* You can adjust the padding as per your design preference */
+}
+
+.footer a {
+    color: #0077b5;
+    text-decoration: underline;
+}
+
+.footer a:hover {
+    color: #005082;
+}
