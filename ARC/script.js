@@ -7,7 +7,7 @@ grids.forEach(grid => {
     }
 });
 
-const token = "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";
+const token = "";
 // Fetch the JSON data
 document.querySelector('.loading-spinner').style.display = 'block';
 
