@@ -53,41 +53,55 @@ const CommuneQuiz = () => {
   };
 
   if (questions.length === 0) {
-    return <div>Chargement...</div>;
+    return React.createElement('div', null, 'Chargement...');
   }
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        {showResult ? (
-          <>
-            <CardHeader title="Résultats du quiz" />
-            <CardContent>
-              <p className="text-2xl font-bold mb-4">Votre score : {score} / {totalQuestions}</p>
-              <p>Taux de réussite global : {((score / totalQuestions) * 100).toFixed(2)}%</p>
-            </CardContent>
-            <CardActions>
-              <Button onClick={continuePlay}>Continuer de jouer</Button>
-            </CardActions>
-          </>
-        ) : (
-          <>
-            <CardHeader title={`Question ${questionsAnswered + currentQuestion + 1} / ${totalQuestions}`} />
-            <CardContent>
-              <p className="mb-4">Laquelle de ces communes est générée par une IA ?</p>
-              <div className="flex flex-col space-y-2">
-                {questions[currentQuestion].names.map((name, index) => (
-                  <Button key={index} onClick={() => handleAnswer(index)} variant="outlined" className="justify-start">
-                    {name}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </>
-        )}
-      </Card>
-    </div>
+  return React.createElement(
+    'div',
+    { className: 'flex items-center justify-center min-h-screen bg-gray-100' },
+    React.createElement(
+      Card,
+      { className: 'w-full max-w-md' },
+      showResult
+        ? React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(CardHeader, { title: 'Résultats du quiz' }),
+            React.createElement(
+              CardContent,
+              null,
+              React.createElement('p', { className: 'text-2xl font-bold mb-4' }, `Votre score : ${score} / ${totalQuestions}`),
+              React.createElement('p', null, `Taux de réussite global : ${((score / totalQuestions) * 100).toFixed(2)}%`)
+            ),
+            React.createElement(
+              CardActions,
+              null,
+              React.createElement(Button, { onClick: continuePlay }, 'Continuer de jouer')
+            )
+          )
+        : React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(CardHeader, { title: `Question ${questionsAnswered + currentQuestion + 1} / ${totalQuestions}` }),
+            React.createElement(
+              CardContent,
+              null,
+              React.createElement('p', { className: 'mb-4' }, 'Laquelle de ces communes est générée par une IA ?'),
+              React.createElement(
+                'div',
+                { className: 'flex flex-col space-y-2' },
+                questions[currentQuestion].names.map((name, index) =>
+                  React.createElement(
+                    Button,
+                    { key: index, onClick: () => handleAnswer(index), variant: 'outlined', className: 'justify-start' },
+                    name
+                  )
+                )
+              )
+            )
+          )
+    )
   );
 };
 
-ReactDOM.render(<CommuneQuiz />, document.getElementById('root'));
+ReactDOM.render(React.createElement(CommuneQuiz), document.getElementById('root'));
