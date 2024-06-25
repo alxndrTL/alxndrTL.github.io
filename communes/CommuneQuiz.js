@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
+const { useState, useEffect, useCallback } = React;
+const { Button, Card, CardHeader, CardContent, CardFooter } = window;
 
 const vraiesCommunes = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"];
 const faussesCommunes = ["Saintville", "Montagnac-sur-Mer", "Boisclair", "Rivière-les-Champs", "Valléeville", "Pontchâteau-la-Forêt", "Beausoleil-sur-Loire", "Rochefort-les-Bains", "Villeneuve-la-Plaine", "Boissy-le-Sec"];
