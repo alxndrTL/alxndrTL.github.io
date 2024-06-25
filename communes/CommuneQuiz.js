@@ -61,7 +61,7 @@ const CommuneQuiz = () => {
     { className: 'flex items-center justify-center min-h-screen bg-gray-100' },
     React.createElement(
       Card,
-      { className: 'w-full max-w-md' },
+      { className: 'bg-card text-card-foreground rounded-xl border shadow w-full max-w-md' },
       showResult
         ? React.createElement(
             React.Fragment,
