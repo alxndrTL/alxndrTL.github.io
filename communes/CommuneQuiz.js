@@ -1,9 +1,6 @@
 const { useState, useEffect, useCallback } = React;
 const { Button, Card, CardHeader, CardContent, CardActions } = MaterialUI;
 
-const vraiesCommunes = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"];
-const faussesCommunes = ["Saintville", "Montagnac-sur-Mer", "Boisclair", "Rivière-les-Champs", "Valléeville", "Pontchâteau-la-Forêt", "Beausoleil-sur-Loire", "Rochefort-les-Bains", "Villeneuve-la-Plaine", "Boissy-le-Sec"];
-
 const CommuneQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -11,6 +8,21 @@ const CommuneQuiz = () => {
   const [questions, setQuestions] = useState([]);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [vraiesCommunes, setVraiesCommunes] = useState([]);
+  const [faussesCommunes, setFaussesCommunes] = useState([]);
+
+  const fetchCommunes = async () => {
+    const [vraiesResponse, faussesResponse] = await Promise.all([
+      fetch('/data/vraiesCommunes.txt'),
+      fetch('/data/faussesCommunes.txt'),
+    ]);
+
+    const vraiesText = await vraiesResponse.text();
+    const faussesText = await faussesResponse.text();
+
+    setVraiesCommunes(vraiesText.split('\n').filter(Boolean));
+    setFaussesCommunes(faussesText.split('\n').filter(Boolean));
+  };
 
   const generateQuestion = useCallback(() => {
     const isRealFirst = Math.random() < 0.5;
@@ -20,17 +32,23 @@ const CommuneQuiz = () => {
       names: isRealFirst ? [realName, fakeName] : [fakeName, realName],
       correctAnswer: isRealFirst ? 1 : 0
     };
-  }, []);
+  }, [vraiesCommunes, faussesCommunes]);
 
   const generateQuestions = useCallback((count) => {
     return Array.from({ length: count }, generateQuestion);
   }, [generateQuestion]);
 
   useEffect(() => {
-    const initialQuestions = generateQuestions(5);
-    setQuestions(initialQuestions);
-    setTotalQuestions(5);
-  }, [generateQuestions]);
+    fetchCommunes();
+  }, []);
+
+  useEffect(() => {
+    if (vraiesCommunes.length > 0 && faussesCommunes.length > 0) {
+      const initialQuestions = generateQuestions(5);
+      setQuestions(initialQuestions);
+      setTotalQuestions(5);
+    }
+  }, [vraiesCommunes, faussesCommunes, generateQuestions]);
 
   const handleAnswer = (answer) => {
     if (answer === questions[currentQuestion].correctAnswer) {
