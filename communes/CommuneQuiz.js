@@ -1,5 +1,5 @@
 const { useState, useEffect, useCallback } = React;
-const { Button, Card, CardHeader, CardContent, CardFooter } = window;
+const { Button, Card, CardHeader, CardContent, CardActions } = MaterialUI;
 
 const vraiesCommunes = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"];
 const faussesCommunes = ["Saintville", "Montagnac-sur-Mer", "Boisclair", "Rivière-les-Champs", "Valléeville", "Pontchâteau-la-Forêt", "Beausoleil-sur-Loire", "Rochefort-les-Bains", "Villeneuve-la-Plaine", "Boissy-le-Sec"];
@@ -23,7 +23,7 @@ const CommuneQuiz = () => {
   }, []);
 
   const generateQuestions = useCallback((count) => {
-    return Array(count).fill().map(generateQuestion);
+    return Array.from({ length: count }, generateQuestion);
   }, [generateQuestion]);
 
   useEffect(() => {
@@ -56,29 +56,28 @@ const CommuneQuiz = () => {
     return <div>Chargement...</div>;
   }
 
-  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md">
         {showResult ? (
           <>
-            <CardHeader>Résultats du quiz</CardHeader>
+            <CardHeader title="Résultats du quiz" />
             <CardContent>
               <p className="text-2xl font-bold mb-4">Votre score : {score} / {totalQuestions}</p>
               <p>Taux de réussite global : {((score / totalQuestions) * 100).toFixed(2)}%</p>
             </CardContent>
-            <CardFooter>
+            <CardActions>
               <Button onClick={continuePlay}>Continuer de jouer</Button>
-            </CardFooter>
+            </CardActions>
           </>
         ) : (
           <>
-            <CardHeader>Question {questionsAnswered + currentQuestion + 1} / {totalQuestions}</CardHeader>
+            <CardHeader title={`Question ${questionsAnswered + currentQuestion + 1} / ${totalQuestions}`} />
             <CardContent>
               <p className="mb-4">Laquelle de ces communes est générée par une IA ?</p>
               <div className="flex flex-col space-y-2">
                 {questions[currentQuestion].names.map((name, index) => (
-                  <Button key={index} onClick={() => handleAnswer(index)} variant="outline" className="justify-start">
+                  <Button key={index} onClick={() => handleAnswer(index)} variant="outlined" className="justify-start">
                     {name}
                   </Button>
                 ))}
@@ -91,4 +90,4 @@ const CommuneQuiz = () => {
   );
 };
 
-export default CommuneQuiz;
+ReactDOM.render(<CommuneQuiz />, document.getElementById('root'));
