@@ -19,12 +19,12 @@ const CommuneQuiz = () => {
     const fakeName = faussesCommunes[Math.floor(Math.random() * faussesCommunes.length)];
     return {
       names: isRealFirst ? [realName, fakeName] : [fakeName, realName],
-      correctAnswer: isRealFirst ? 1 : 0
+      correctAnswer: isRealFirst ? 0 : 1
     };
   }, []);
 
   const generateQuestions = useCallback((count) => {
-    return Array(count).fill().map(generateQuestion);
+    return Array.from({ length: count }, generateQuestion);
   }, [generateQuestion]);
 
   useEffect(() => {
