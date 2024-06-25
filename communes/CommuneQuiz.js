@@ -57,11 +57,12 @@ const CommuneQuiz = () => {
     return <div>Chargement...</div>;
   }
 
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md">
         {showResult ? (
-          <React.Fragment>
+          <>
             <CardHeader>Résultats du quiz</CardHeader>
             <CardContent>
               <p className="text-2xl font-bold mb-4">Votre score : {score} / {totalQuestions}</p>
@@ -70,9 +71,9 @@ const CommuneQuiz = () => {
             <CardFooter>
               <Button onClick={continuePlay}>Continuer de jouer</Button>
             </CardFooter>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             <CardHeader>Question {questionsAnswered + currentQuestion + 1} / {totalQuestions}</CardHeader>
             <CardContent>
               <p className="mb-4">Laquelle de ces communes est générée par une IA ?</p>
@@ -84,7 +85,7 @@ const CommuneQuiz = () => {
                 ))}
               </div>
             </CardContent>
-          </React.Fragment>
+          </>
         )}
       </Card>
     </div>
