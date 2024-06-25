@@ -13,8 +13,8 @@ const CommuneQuiz = () => {
 
   const fetchCommunes = async () => {
     const [vraiesResponse, faussesResponse] = await Promise.all([
-      fetch('/data/vraiesCommunes.txt'),
-      fetch('/data/faussesCommunes.txt'),
+      fetch('communes/data/vraiesCommunes.txt'),
+      fetch('communes/data/faussesCommunes.txt'),
     ]);
 
     const vraiesText = await vraiesResponse.text();
