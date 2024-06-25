@@ -65,7 +65,7 @@ const CommuneQuiz = () => {
             <CardHeader>Résultats du quiz</CardHeader>
             <CardContent>
               <p className="text-2xl font-bold mb-4">Votre score : {score} / {totalQuestions}</p>
-              <p>Taux de réussite global : {(score / totalQuestions * 100).toFixed(2)}%</p>
+              <p>Taux de réussite global : {((score / totalQuestions) * 100).toFixed(2)}%</p>
             </CardContent>
             <CardFooter>
               <Button onClick={continuePlay}>Continuer de jouer</Button>
