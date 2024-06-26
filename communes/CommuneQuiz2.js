@@ -1,9 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-
-const vraiesCommunes = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"];
-const faussesCommunes = ["Saintville", "Montagnac-sur-Mer", "Boisclair", "Rivière-les-Champs", "Valléeville", "Pontchâteau-la-Forêt", "Beausoleil-sur-Loire", "Rochefort-les-Bains", "Villeneuve-la-Plaine", "Boissy-le-Sec"];
+const { useState, useEffect, useCallback } = React;
+const { Button, Card, CardHeader, CardContent, CardActions } = MaterialUI;
 
 const CommuneQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -12,6 +8,22 @@ const CommuneQuiz = () => {
   const [questions, setQuestions] = useState([]);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [vraiesCommunes, setVraiesCommunes] = useState([]);
+  const [faussesCommunes, setFaussesCommunes] = useState([]);
+  const [playedQuestions, setPlayedQuestions] = useState([]);
+
+  const fetchCommunes = async () => {
+    const [vraiesResponse, faussesResponse] = await Promise.all([
+      fetch('data/vraies_communes.txt'),
+      fetch('data/fausses_communes.txt'),
+    ]);
+
+    const vraiesText = await vraiesResponse.text();
+    const faussesText = await faussesResponse.text();
+
+    setVraiesCommunes(vraiesText.split('\n').filter(Boolean));
+    setFaussesCommunes(faussesText.split('\n').filter(Boolean));
+  };
 
   const generateQuestion = useCallback(() => {
     const isRealFirst = Math.random() < 0.5;
@@ -19,24 +31,33 @@ const CommuneQuiz = () => {
     const fakeName = faussesCommunes[Math.floor(Math.random() * faussesCommunes.length)];
     return {
       names: isRealFirst ? [realName, fakeName] : [fakeName, realName],
-      correctAnswer: isRealFirst ? 0 : 1
+      correctAnswer: isRealFirst ? 1 : 0
     };
-  }, []);
+  }, [vraiesCommunes, faussesCommunes]);
 
   const generateQuestions = useCallback((count) => {
     return Array.from({ length: count }, generateQuestion);
   }, [generateQuestion]);
 
   useEffect(() => {
-    const initialQuestions = generateQuestions(5);
-    setQuestions(initialQuestions);
-    setTotalQuestions(5);
-  }, [generateQuestions]);
+    fetchCommunes();
+  }, []);
+
+  useEffect(() => {
+    if (vraiesCommunes.length > 0 && faussesCommunes.length > 0) {
+      const initialQuestions = generateQuestions(5);
+      setQuestions(initialQuestions);
+      setTotalQuestions(5);
+    }
+  }, [vraiesCommunes, faussesCommunes, generateQuestions]);
 
   const handleAnswer = (answer) => {
     if (answer === questions[currentQuestion].correctAnswer) {
       setScore(score + 1);
     }
+    
+    setPlayedQuestions([...playedQuestions, questions[currentQuestion]]);
+  
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -51,44 +72,81 @@ const CommuneQuiz = () => {
     setCurrentQuestion(0);
     setShowResult(false);
     setTotalQuestions(totalQuestions + 5);
+    setPlayedQuestions([]); // Réinitialiser les questions jouées
   };
 
   if (questions.length === 0) {
-    return <div>Chargement...</div>;
+    return React.createElement('div', null, 'Chargement...');
   }
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        {showResult ? (
-          <React.Fragment>
-            <CardHeader>Résultats du quiz</CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold mb-4">Votre score : {score} / {totalQuestions}</p>
-              <p>Taux de réussite global : {((score / totalQuestions) * 100).toFixed(2)}%</p>
-            </CardContent>
-            <CardFooter>
-              <Button onClick={continuePlay}>Continuer de jouer</Button>
-            </CardFooter>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <CardHeader>Question {questionsAnswered + currentQuestion + 1} / {totalQuestions}</CardHeader>
-            <CardContent>
-              <p className="mb-4">Laquelle de ces communes est générée par une IA ?</p>
-              <div className="flex flex-col space-y-2">
-                {questions[currentQuestion].names.map((name, index) => (
-                  <Button key={index} onClick={() => handleAnswer(index)} variant="outline" className="justify-start">
-                    {name}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </React.Fragment>
-        )}
-      </Card>
-    </div>
-  );
+  return React.createElement(
+    'div',
+    { className: 'flex items-center justify-center min-h-screen bg-gray-100 bg-opacity-0' },
+    React.createElement(
+      Card,
+      { className: 'bg-card text-card-foreground rounded-xl border shadow w-full max-w-md' },
+      showResult
+        ? React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(CardHeader, { title: 'Résultats du test' }),
+            React.createElement(
+              CardContent,
+              null,
+              React.createElement('p', { className: 'text-2xl font-bold mb-4' }, `Votre score : ${score} / ${totalQuestions}`),
+              React.createElement('p', null, `Taux de réussite global : ${((score / totalQuestions) * 100).toFixed(2)}%`),
+              React.createElement('div', { className: 'flex justify-between mt-4' },
+                React.createElement('div', { className: 'w-1/2 pr-2' },
+                  React.createElement('h3', { className: 'mb-2 font-semibold text-center' }, 'VRAIS NOMS 🇫🇷'),
+                  React.createElement('ul', { className: 'list-none' },
+                    playedQuestions.map((question, index) =>
+                      React.createElement('li', { key: index, className: 'text-center' },
+                        question.names[question.correctAnswer === 1 ? 0 : 1]
+                      )
+                    )
+                  )
+                ),
+                React.createElement('div', { className: 'w-1/2 pl-2' },
+                  React.createElement('h3', { className: 'mb-2 font-semibold text-center' }, 'FAUX NOMS 🤖'),
+                  React.createElement('ul', { className: 'list-none' },
+                    playedQuestions.map((question, index) =>
+                      React.createElement('li', { key: index, className: 'text-center' },
+                        question.names[question.correctAnswer === 0 ? 0 : 1]
+                      )
+                    )
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              CardActions,
+              { style: { justifyContent: 'center' } },
+              React.createElement(Button, { onClick: continuePlay }, 'Continuer de jouer')
+            )
+          )
+        : React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(CardHeader, { title: `Question ${questionsAnswered + currentQuestion + 1} / ${totalQuestions}` }),
+            React.createElement(
+              CardContent,
+              null,
+              React.createElement('p', { className: 'mb-4' }, 'Laquelle de ces communes est générée par une IA ?'),
+              React.createElement(
+                'div',
+                { className: 'flex flex-col space-y-2' },
+                questions[currentQuestion].names.map((name, index) =>
+                  React.createElement(
+                    Button,
+                    { key: index, onClick: () => handleAnswer(index), variant: 'outlined', className: 'button-centered' },
+                    name
+                  )
+                )
+              )
+            )
+          )
+    )
+  );    
 };
 
-export default CommuneQuiz;
+ReactDOM.render(React.createElement(CommuneQuiz), document.getElementById('root'));

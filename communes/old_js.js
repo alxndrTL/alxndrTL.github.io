@@ -76,7 +76,7 @@ const CommuneQuiz = () => {
 
   return React.createElement(
     'div',
-    { className: 'flex items-center justify-center min-h-screen bg-gray-100 bg-opacity-0' },
+    { className: 'flex items-center justify-center min-h-screen bg-gray-100' },
     React.createElement(
       Card,
       { className: 'bg-card text-card-foreground rounded-xl border shadow w-full max-w-md' },
@@ -111,7 +111,7 @@ const CommuneQuiz = () => {
                 questions[currentQuestion].names.map((name, index) =>
                   React.createElement(
                     Button,
-                    { key: index, onClick: () => handleAnswer(index), variant: 'outlined', className: 'button-centered' },
+                    { key: index, onClick: () => handleAnswer(index), variant: 'outlined', className: 'justify-start' },
                     name
                   )
                 )
