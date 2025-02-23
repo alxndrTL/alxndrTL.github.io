@@ -1,6 +1,6 @@
 <h2 id="projects" style="margin: 2px 0px 10px;">Projects</h2>
 
-Here are some projects I do on my own. These are purely personal projects, done outside of any academic work. They represent well my interests and my skills. Some represent weeks, months or years of work, while others are smaller projects that I still find meaningful to put here.
+Here are some projects I do on my own. These are purely personal projects, done outside of any academic work. They represent well my interests and my skills. Some represent months or years of work, while others are smaller projects that I still find meaningful to put here.
 
 <div class="projects">
 <ol class="bibliography">
