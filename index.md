@@ -13,4 +13,4 @@ I am an engineering student in Lille, France. I am 22 years old and currently pu
 - **[Feb. 2024]** Published a research project named [OthelloMamba](https://github.com/alxndrTL/othello_mamba). [Personal recognition](https://github.com/alxndrTL/othello_mamba/issues/1) from Albert Gu.
 - **[Jan. 2024]** Released `mamba.py`, a [Python package](https://github.com/alxndrTL/mamba.py), an efficient implentation of the Mamba architecture using plain PyTorch. Also integrated in [🤗 Transformers](https://huggingface.co/docs/transformers/index).x
 
-{% include_relative _includes/projets.md %}
+{% include_relative _includes/projects.md %}
