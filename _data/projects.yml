@@ -2,5 +2,5 @@ main:
 
   - title: Linear attention kernel in ThunderKittens
     code: https://github.com/alxndrTL/ThunderKittens/blob/main/my_kernels/lin_attn/4090.cu
-    image: ./assets/img/linear_attn_tk.png
+    image: ./assets/img/tk.jpeg
     notes: Early Accept
