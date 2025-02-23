@@ -6,6 +6,12 @@ main:
     image: ./assets/img/tk.jpeg
     date: Jan. 2025
 
+  - title: Reproducing nGPT
+    resume: Tried to reproduce the [nGPT architecture](https://arxiv.org/abs/2410.01131). Implementation in PyTorch (before the code release). Trained dozens of models on rented GPU instances. Found a [bug](https://github.com/NVIDIA/ngpt/issues/1) in the reference implementation that disadvantaged the GPT baseline.  
+    code: https://github.com/alxndrTL/modded-nanogpt
+    image: ./assets/img/ngpt.png
+    date: Nov. 2024
+
   - title: OthelloMamba
     resume: Adapted the famous [OthelloGPT](https://arxiv.org/abs/2210.13382) experiment to show that it still holds with the Mamba architecture. [Personal recognition](https://github.com/alxndrTL/othello_mamba/issues/1) from Albert Gu.
     code: https://github.com/alxndrTL/othello_mamba
