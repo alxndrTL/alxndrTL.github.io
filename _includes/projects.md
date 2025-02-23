@@ -1,5 +1,7 @@
 <h2 id="projects" style="margin: 2px 0px -15px;">Projects</h2>
 
+Here are some projects I do on my own or in collaboration with others. These are purely personal projects, done outside of any academic work.
+
 <div class="projects">
 <ol class="bibliography">
 
