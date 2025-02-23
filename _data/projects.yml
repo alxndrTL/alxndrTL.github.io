@@ -24,3 +24,9 @@ main:
     code: https://github.com/alxndrTL/Landing-Starships
     image: ./assets/img/starship.png
     date: Aug. 2020
+
+  - title: YouTube channel (Alexandre TL)
+    resume: Production of videos explaining ML concepts at different technical levels. Some videos explain ML papers and showcase my reproductions. More than 70 videos and 7k subscribers. Typical video is [this one](http://youtube.com/watch?v=n4EnafoZ38Q).
+    page: https://www.youtube.com/@alexandretl
+    image: ./assets/img/banniere.png
+    date: 2020 - now
