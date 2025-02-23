@@ -8,6 +8,6 @@ main:
   - title: ChatGPT explained in 5 minutes
     resume: 
     authors: Alexandre Torres-Leguet, Clément Romac, Thomas Carta, Pierre-Yves Oudeyer
-    image: ./assets/img/chat_5_min.png
+    image: ./assets/img/chatgpt_5_min.png
     page: https://developmentalsystems.org/chatgpt_5_minutes/en/
   
