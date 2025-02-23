@@ -1,4 +1,4 @@
-<h2 id="projects" style="margin: 2px 0px -15px;">Projects</h2>
+<h2 id="projects" style="margin: 2px 0px 10px;">Projects</h2>
 
 Here are some projects I do on my own. These are purely personal projects, done outside of any academic work. They represent well my current interests and my skills.
 
