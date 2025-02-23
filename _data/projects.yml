@@ -5,8 +5,8 @@ main:
     code: https://github.com/alxndrTL/ThunderKittens/blob/main/my_kernels/lin_attn/4090.cu
     image: ./assets/img/tk.jpeg
 
-  - title: ChatGPT explained in 5 minutes
-    resume: 
+  - title: ChatGPT explained in 5 minutes (8 videos as of now)
+    resume: As a micro-entrepreneur, I'm working with the [Flowers Inria lab](https://flowers.inria.fr/) on a video series explaining generative AI to a general audience. This work was used multiple times by the French administration for training of government officials.
     authors: Alexandre Torres-Leguet, Clément Romac, Thomas Carta, Pierre-Yves Oudeyer
     image: ./assets/img/chatgpt_5_min.png
     page: https://developmentalsystems.org/chatgpt_5_minutes/en/
