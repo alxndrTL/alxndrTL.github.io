@@ -1,6 +1,6 @@
 main:
 
   - title: Linear attention kernel in ThunderKittens
-    resume: blablabla
+    resume: A GPU kernel written in ThunderKittens (a wrapper on top of CUDA) that implements vanilla linear attention. It follows the chunkwise parallel algorithm as defined in [GLA](https://arxiv.org/abs/2312.06635).
     code: https://github.com/alxndrTL/ThunderKittens/blob/main/my_kernels/lin_attn/4090.cu
     image: ./assets/img/tk.jpeg
