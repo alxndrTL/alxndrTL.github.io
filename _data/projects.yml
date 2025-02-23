@@ -6,6 +6,12 @@ main:
     image: ./assets/img/tk.jpeg
     date: Jan. 2025
 
+  - title: OthelloMamba
+    resume: Adapted the famous [OthelloGPT](https://arxiv.org/abs/2210.13382) experiment to show that it still holds with the Mamba architecture.
+    code: https://github.com/alxndrTL/othello_mamba
+    image: ./assets/img/mamba_othello.png
+    date: Feb. 2024
+
   - title: ChatGPT explained in 5 minutes (8 videos as of now)
     resume: As a micro-entrepreneur, I'm working with the [Flowers Inria lab](https://flowers.inria.fr/) on a video series explaining generative AI to a general audience. This work was used multiple times by the French administration for training of government officials.
     authors: Alexandre Torres-Leguet, Clément Romac, Thomas Carta, Pierre-Yves Oudeyer
