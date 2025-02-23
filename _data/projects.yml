@@ -10,4 +10,8 @@ main:
     authors: Alexandre Torres-Leguet, Clément Romac, Thomas Carta, Pierre-Yves Oudeyer
     image: ./assets/img/chatgpt_5_min.png
     page: https://developmentalsystems.org/chatgpt_5_minutes/en/
-  
+
+  - title: Landing-Starships
+    resume: Used RL to train rockets to land à la SpaceX in a 3D environment. A lot of trial and error with PPO in Unity ML-Agents. Curriculum learning to acheive the famous belly-flop maneuver.
+    code: https://github.com/alxndrTL/Landing-Starships
+    image: ./assets/img/starship.png
