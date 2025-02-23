@@ -7,7 +7,7 @@ main:
     date: Jan. 2025
 
   - title: OthelloMamba
-    resume: Adapted the famous [OthelloGPT](https://arxiv.org/abs/2210.13382) experiment to show that it still holds with the Mamba architecture.
+    resume: Adapted the famous [OthelloGPT](https://arxiv.org/abs/2210.13382) experiment to show that it still holds with the Mamba architecture. [Personal recognition](https://github.com/alxndrTL/othello_mamba/issues/1) from Albert Gu.
     code: https://github.com/alxndrTL/othello_mamba
     image: ./assets/img/mamba_othello.png
     date: Feb. 2024
