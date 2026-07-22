@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E9EEF0">
+<title>Vélo : le vent, c'est quelle côte ?</title>
+<style>
+  :root{
+    --bg:#E9EEF0; --card:#FFFFFF; --ink:#17272E; --muted:#5B6C73;
+    --asphalt:#37444C; --line:rgba(255,255,255,.8);
+    --sky:#DCE6EA; --shadow:0 1px 0 rgba(23,39,46,.06);
+    --grn:#1E8E5A; --amb:#C88A12; --org:#D8681C; --red:#C33A34; --tealz:#158079;
+    --sev:#C88A12;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    font-size:18px; line-height:1.5; padding:max(18px,env(safe-area-inset-top)) 16px 40px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:600px;margin:0 auto}
+  .disp{font-family:ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
+        font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  header{text-align:center;margin:4px 0 18px}
+  h1{font-size:26px;font-weight:800;margin:0 0 4px;line-height:1.15}
+  header p{margin:0;color:var(--muted);font-size:16px}
+
+  .scene{background:var(--card);border-radius:20px;box-shadow:var(--shadow);
+         padding:8px 8px 0;overflow:hidden}
+  .scene svg{display:block;width:100%;height:auto;border-radius:14px}
+  .verdict{background:var(--card);border-radius:0 0 20px 20px;padding:16px 20px 20px;
+           margin-top:-4px;box-shadow:var(--shadow)}
+  .verdict .big{font-size:clamp(38px,13vw,60px);font-weight:800;line-height:1;color:var(--sev)}
+  .verdict .big small{font-size:.42em;font-weight:700;color:var(--muted);margin-left:4px;letter-spacing:0}
+  .verdict .sentence{font-size:19px;margin-top:8px;color:var(--ink)}
+  .verdict .sentence b{color:var(--sev)}
+
+  .controls{margin-top:22px;display:grid;gap:16px}
+  .ctrl{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:15px 18px 18px}
+  .ctrl .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .ctrl label{font-size:17px;font-weight:600}
+  .ctrl .val{font-weight:800;font-size:22px}
+  .ctrl .val small{font-size:14px;font-weight:600;color:var(--muted)}
+  .hint{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-top:8px}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:34px;
+    background:transparent;margin:0;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:6px;
+    background:#D3DCE0}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:32px;height:32px;border-radius:50%;background:#fff;border:2px solid #B9C4C9;
+    box-shadow:0 2px 6px rgba(23,39,46,.28);margin-top:-11px}
+  input[type=range]::-moz-range-track{height:10px;border-radius:6px;background:#D3DCE0}
+  input[type=range]::-moz-range-thumb{width:32px;height:32px;border:2px solid #B9C4C9;
+    border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(23,39,46,.28)}
+  input[type=range]:focus{outline:none}
+  input[type=range]:focus::-webkit-slider-thumb{border-color:var(--sev)}
+
+  .pos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:2px}
+  .pos button{font:inherit;font-size:15px;font-weight:600;padding:12px 6px;border-radius:12px;
+    border:2px solid #D3DCE0;background:#F3F6F7;color:var(--muted);cursor:pointer;line-height:1.2}
+  .pos button.on{border-color:var(--ink);background:#fff;color:var(--ink)}
+
+  details{margin-top:20px;background:var(--card);border-radius:16px;box-shadow:var(--shadow);
+    padding:2px 18px}
+  summary{font-weight:700;font-size:17px;padding:15px 0;cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"＋";float:right;color:var(--muted);font-weight:400}
+  details[open] summary::after{content:"－"}
+  details p{margin:0 0 14px;color:var(--ink);font-size:16px}
+  .formula{font-family:ui-monospace,Menlo,monospace;background:#F1F5F6;border-radius:10px;
+    padding:12px 14px;font-size:15px;color:var(--ink);overflow-x:auto}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1 class="disp">Le vent, c'est quelle côte ?</h1>
+    <p>À vélo, un vent de face vous freine autant qu'une pente. Voici laquelle.</p>
+  </header>
+
+  <div class="scene">
+    <svg id="scene" viewBox="0 0 360 210" aria-hidden="true">
+      <rect x="0" y="0" width="360" height="210" fill="var(--sky)"/>
+      <polygon id="ground" points="0,150 360,150 360,210 0,210" fill="var(--asphalt)"/>
+      <line id="dash" x1="0" y1="150" x2="360" y2="150" stroke="var(--line)"
+            stroke-width="3" stroke-dasharray="14 12" stroke-linecap="round"/>
+      <g id="bike" transform="translate(180,135)" fill="none"
+         stroke="#111" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="-14" cy="-7" r="7"/>
+        <circle cx="14" cy="-7" r="7"/>
+        <path d="M-14,-7 L0,-7 L11,-7 M0,-7 L-5,-20 L11,-19 L14,-7 M0,-7 L11,-19"/>
+        <path d="M-5,-20 L4,-27 M4,-27 L11,-21 M4,-27 L-2,-8"/>
+        <circle cx="6" cy="-33" r="4" fill="#111" stroke="none"/>
+      </g>
+      <g id="sign" transform="translate(300,150)">
+        <line x1="0" y1="0" x2="0" y2="-30" stroke="#8A979C" stroke-width="4"/>
+        <polygon id="signtri" points="0,-78 22,-40 -22,-40" fill="#fff"
+                 stroke="var(--sev)" stroke-width="5" stroke-linejoin="round"/>
+        <text id="signtxt" x="0" y="-49" text-anchor="middle"
+              font-family="ui-rounded,-apple-system,sans-serif" font-weight="800"
+              font-size="16" fill="var(--ink)">3%</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="verdict">
+    <div class="big disp"><span id="pct">2,9</span><small>%</small></div>
+    <div class="sentence" id="sentence"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl">
+      <div class="row">
+        <label for="v">Votre vitesse</label>
+        <span class="val disp"><span id="v-out">22</span><small> km/h</small></span>
+      </div>
+      <input type="range" id="v" min="8" max="45" step="1" value="22">
+    </div>
+
+    <div class="ctrl">
+      <div class="row">
+        <label>Le vent</label>
+        <span class="val disp" id="w-label">de face 20 <small>km/h</small></span>
+      </div>
+      <input type="range" id="w" min="-30" max="55" step="1" value="20">
+      <div class="hint"><span>← vent de dos</span><span>pas de vent</span><span>vent de face →</span></div>
+    </div>
+
+    <div class="ctrl">
+      <div class="row">
+        <label for="m">Vous + le vélo</label>
+        <span class="val disp"><span id="m-out">85</span><small> kg</small></span>
+      </div>
+      <input type="range" id="m" min="55" max="120" step="1" value="85">
+    </div>
+
+    <div class="ctrl">
+      <div class="row"><label>Votre position</label></div>
+      <div class="pos" id="pos">
+        <button data-cda="0.55">Redressé</button>
+        <button data-cda="0.40" class="on">Sur les cocottes</button>
+        <button data-cda="0.30">Aéro, mains en bas</button>
+      </div>
+    </div>
+  </div>
+
+  <details>
+    <summary>Comment ça marche ?</summary>
+    <p>Un vent de face augmente la résistance de l'air. Comme cette résistance grimpe
+       avec le carré de la vitesse, on peut la traduire en une pente qui vous coûterait
+       le même effort — à la vitesse où vous roulez.</p>
+    <p>Deux choses à retenir : plus vous roulez vite, plus le même vent « pèse » lourd ;
+       et l'effet monte très vite quand le vent forcit (doubler le vent fait bien plus que
+       doubler la côte).</p>
+    <div class="formula">pente (%) = ½ · ρ · SCx · vent · (2·vitesse + vent) ÷ (poids · g)</div>
+  </details>
+
+  <footer>Estimation physique (air à 1,225 kg/m³). La réalité dépend aussi du revêtement,
+    des pneus, de l'altitude et de la fatigue. Fait avec ❤️ pour un papy cycliste.</footer>
+
+</div>
+
+<script>
+  var RHO=1.225, G=9.81;
+  var cda=0.40;
+  function $(id){return document.getElementById(id);}
+  function fr1(x){return x.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});}
+
+  function sev(p){
+    var a=Math.abs(p);
+    if(p<0) return {c:getComputedStyle(document.documentElement).getPropertyValue('--tealz').trim()||'#158079'};
+    if(a<1)  return {c:cssv('--grn')};
+    if(a<3)  return {c:cssv('--amb')};
+    if(a<6)  return {c:cssv('--org')};
+    return {c:cssv('--red')};
+  }
+  function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+
+  function update(){
+    var v=+$('v').value, w=+$('w').value, m=+$('m').value;
+    $('v-out').textContent=v;
+    $('m-out').textContent=m;
+
+    // wind label
+    var wl;
+    if(w>0) wl='de face '+w+' <small>km/h</small>';
+    else if(w<0) wl='de dos '+(-w)+' <small>km/h</small>';
+    else wl='calme';
+    $('w-label').innerHTML=wl;
+
+    // physics (sign-correct so strong tailwinds behave)
+    var vms=v/3.6, wms=w/3.6;
+    var airRel=vms+wms;
+    var Faero=0.5*RHO*cda*airRel*Math.abs(airRel);
+    var Fbase=0.5*RHO*cda*vms*vms;
+    var dF=Faero-Fbase;
+    var p=100*dF/(m*G);
+
+    var s=sev(p);
+    document.documentElement.style.setProperty('--sev', s.c);
+    $('pct').textContent=fr1(Math.abs(p)<0.05?0:p);
+
+    // sentence
+    var msg;
+    if(p>0.3) msg='À <b>'+w+' km/h de face</b>, vous forcez comme dans une côte à <b>'+fr1(p)+' %</b>.';
+    else if(p<-0.3) msg='Le <b>vent de dos</b> vous pousse : comme une descente à <b>'+fr1(-p)+' %</b>.';
+    else msg='Ni vent ni pente : c\'est du plat.';
+    $('sentence').innerHTML=msg;
+
+    // scene geometry
+    var pd=Math.max(-22,Math.min(22,p));
+    var a=Math.atan(pd/100);
+    var px=180, py=135, tan=Math.tan(a);
+    var y0=py+tan*px, y360=py-tan*(360-px);
+    $('ground').setAttribute('points','0,'+y0.toFixed(1)+' 360,'+y360.toFixed(1)+' 360,210 0,210');
+    $('dash').setAttribute('x1',0); $('dash').setAttribute('y1',y0.toFixed(1));
+    $('dash').setAttribute('x2',360); $('dash').setAttribute('y2',y360.toFixed(1));
+    var deg=-a*180/Math.PI;
+    var yBike=py; // road passes through pivot at x=180
+    $('bike').setAttribute('transform','translate(180,'+yBike+') rotate('+deg.toFixed(2)+')');
+    // sign sits at x=300 on the road surface
+    var ySign=py - tan*(300-px);
+    $('sign').setAttribute('transform','translate(300,'+ySign.toFixed(1)+')');
+    $('signtri').setAttribute('stroke',s.c);
+    $('signtxt').textContent=(p>=0?'':'−')+Math.round(Math.abs(p))+'%';
+  }
+
+  ['v','w','m'].forEach(function(id){$(id).addEventListener('input',update);});
+  var pos=$('pos');
+  pos.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click',function(){
+      pos.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); cda=+b.dataset.cda; update();
+    });
+  });
+  update();
+</script>
+</body>
+</html>
