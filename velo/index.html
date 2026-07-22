@@ -21,12 +21,12 @@
     font-size:18px; line-height:1.5; padding:max(18px,env(safe-area-inset-top)) 16px 40px;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:600px;margin:0 auto}
+  .wrap{max-width:940px;margin:0 auto}
   .disp{font-family:ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
         font-variant-numeric:tabular-nums;letter-spacing:-.01em}
   header{text-align:center;margin:4px 0 18px}
   h1{font-size:26px;font-weight:800;margin:0 0 4px;line-height:1.15}
-  header p{margin:0;color:var(--muted);font-size:16px}
+  header p{margin:0 auto;color:var(--muted);font-size:16px;max-width:540px}
 
   .scene{background:var(--card);border-radius:20px;box-shadow:var(--shadow);
          padding:8px 8px 0;overflow:hidden}
@@ -38,7 +38,15 @@
   .verdict .sentence{font-size:19px;margin-top:8px;color:var(--ink)}
   .verdict .sentence b{color:var(--sev)}
 
-  .controls{margin-top:22px;display:grid;gap:16px}
+  .main{display:grid;gap:16px;align-items:start}
+  .viz{display:flex;flex-direction:column}
+  .controls{margin-top:0;display:grid;gap:16px}
+  @media(min-width:720px){
+    .main{grid-template-columns:1fr 1.05fr;gap:22px}
+    .main .controls{grid-column:1;grid-row:1}
+    .main .viz{grid-column:2;grid-row:1}
+    details{max-width:660px;margin-left:auto;margin-right:auto}
+  }
   .ctrl{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:15px 18px 18px}
   .ctrl .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
   .ctrl label{font-size:17px;font-weight:600}
@@ -71,8 +79,17 @@
   summary::after{content:"＋";float:right;color:var(--muted);font-weight:400}
   details[open] summary::after{content:"－"}
   details p{margin:0 0 14px;color:var(--ink);font-size:16px}
-  .formula{font-family:ui-monospace,Menlo,monospace;background:#F1F5F6;border-radius:10px;
-    padding:12px 14px;font-size:15px;color:var(--ink);overflow-x:auto}
+  .formula{background:#F1F5F6;border-radius:10px;padding:14px 16px;color:var(--ink);
+    overflow-x:auto;text-align:center;font-size:17px}
+  .vars{margin:0 0 14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;
+    align-items:baseline;font-size:15px}
+  .vars dt{font-weight:800;font-family:ui-rounded,-apple-system,system-ui,sans-serif}
+  .vars dd{margin:0;color:var(--ink)}
+  .lead{margin:0 0 8px;font-weight:600;color:var(--ink)}
+  .lead2{margin:18px 0 8px;font-weight:600;color:var(--ink)}
+  .notes{margin:0;padding-left:22px}
+  .notes li{margin:0 0 8px;font-size:16px;line-height:1.5}
+  .notes li:last-child{margin-bottom:0}
   footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;line-height:1.5}
 </style>
 </head>
@@ -80,10 +97,12 @@
 <div class="wrap">
 
   <header>
-    <h1 class="disp">Le vent, c'est quelle côte ?</h1>
-    <p>À vélo, un vent de face vous freine autant qu'une pente. Voici laquelle.</p>
+    <h1 class="disp">Equivalence vent / côte</h1>
+    <p>Pour une vitesse donnée, quelle est la pente équivalente à un vent donné ?</p>
   </header>
 
+  <div class="main">
+   <div class="viz">
   <div class="scene">
     <svg id="scene" viewBox="0 0 360 210" aria-hidden="true">
       <rect x="0" y="0" width="360" height="210" fill="var(--sky)"/>
@@ -113,58 +132,85 @@
     <div class="big disp"><span id="pct">2,9</span><small>%</small></div>
     <div class="sentence" id="sentence"></div>
   </div>
+   </div>
 
   <div class="controls">
     <div class="ctrl">
       <div class="row">
-        <label for="v">Votre vitesse</label>
-        <span class="val disp"><span id="v-out">22</span><small> km/h</small></span>
-      </div>
-      <input type="range" id="v" min="8" max="45" step="1" value="22">
-    </div>
-
-    <div class="ctrl">
-      <div class="row">
-        <label>Le vent</label>
+        <label>Vitesse vent</label>
         <span class="val disp" id="w-label">de face 20 <small>km/h</small></span>
       </div>
-      <input type="range" id="w" min="-30" max="55" step="1" value="20">
+      <input type="range" id="w" min="-55" max="55" step="1" value="20">
       <div class="hint"><span>← vent de dos</span><span>pas de vent</span><span>vent de face →</span></div>
     </div>
 
     <div class="ctrl">
       <div class="row">
-        <label for="m">Vous + le vélo</label>
+        <label for="v">Vitesse cycliste</label>
+        <span class="val disp"><span id="v-out">22</span><small> km/h</small></span>
+      </div>
+      <input type="range" id="v" min="8" max="60" step="1" value="25">
+    </div>
+
+    <div class="ctrl">
+      <div class="row">
+        <label for="m">Masse cycliste + vélo</label>
         <span class="val disp"><span id="m-out">85</span><small> kg</small></span>
       </div>
       <input type="range" id="m" min="55" max="120" step="1" value="85">
     </div>
 
     <div class="ctrl">
-      <div class="row"><label>Votre position</label></div>
+      <div class="row"><label>Position sur le vélo</label></div>
       <div class="pos" id="pos">
         <button data-cda="0.55">Redressé</button>
-        <button data-cda="0.40" class="on">Sur les cocottes</button>
-        <button data-cda="0.30">Aéro, mains en bas</button>
+        <button data-cda="0.40" class="on">Cocottes</button>
+        <button data-cda="0.30">Aérodynamique</button>
       </div>
     </div>
+  </div>
   </div>
 
   <details>
     <summary>Comment ça marche ?</summary>
-    <p>Un vent de face augmente la résistance de l'air. Comme cette résistance grimpe
-       avec le carré de la vitesse, on peut la traduire en une pente qui vous coûterait
-       le même effort — à la vitesse où vous roulez.</p>
-    <p>Deux choses à retenir : plus vous roulez vite, plus le même vent « pèse » lourd ;
-       et l'effet monte très vite quand le vent forcit (doubler le vent fait bien plus que
-       doubler la côte).</p>
-    <div class="formula">pente (%) = ½ · ρ · SCx · vent · (2·vitesse + vent) ÷ (poids · g)</div>
+    <p>Un vent de face augmente la résistance de l'air. On calcule ce surplus de
+       résistance, puis on cherche la pente qui coûterait le même effort. Cela permet d'obtenir l'équivalence pente / vent :</p>
+
+    <div class="formula">$$\text{pente}\,(\%) \;=\; 100 \times \frac{\frac{1}{2}\,\rho\,S C_x\,w\,(2v + w)}{m\,g}$$</div>
+
+    <dl class="vars">
+      <dt>pente</dt><dd>la pente équivalente, en % (négative = descente)</dd>
+      <dt>v</dt><dd>vitesse du cycliste, en m/s</dd>
+      <dt>w</dt><dd>vitesse du vent de face, en m/s (négative si vent de dos)</dd>
+      <dt>SCx</dt><dd>traînée aérodynamique (Cx × surface frontale), en m², de 0,30 (aéro) à 0,55 (redressé)</dd>
+      <dt>ρ</dt><dd>masse volumique de l'air, ≈ 1,225 kg/m³</dd>
+      <dt>m</dt><dd>masse totale (cycliste + vélo) en kg</dd>
+      <dt>g</dt><dd>pesanteur, ≈ 9,81 m/s²</dd>
+    </dl>
+
+    <p class="lead">Influence de chaque paramètre :</p>
+    <ul class="notes">
+      <li><b>vitesse du vent</b> : plus on l'augmente, plus la pente équivalente est forte (logique).</li>
+      <li><b>vitesse du cycliste</b> : plus on roule vite, plus un même vent est pénalisant. Donc la pente équivalente augmente avec la vitesse du vélo !</li>
+      <li><b>masse</b> : plus on est lourd, moins le vent est pénalisant. Donc la pente équivalente diminue avec la masse.</li>
+      <li><b>position sur le vélo</b>: réduit l'impact du vent, donc la pente équivalente diminue.</li>
+    </ul>
+
+    <p class="lead2">Notes:</p>
+    <ul class="notes">
+      <li>Ce n'est pas symétrique : un vent de dos de 25 km/h a une pente équivalente plus faible qu'un vent de face de 25 km/h.</li>
+      <li>Doubler le vent fait bien plus que doubler la côte équivalente.</li>
+    </ul>
   </details>
 
-  <footer>Estimation physique (air à 1,225 kg/m³). La réalité dépend aussi du revêtement,
-    des pneus, de l'altitude et de la fatigue. Fait avec ❤️ pour un papy cycliste.</footer>
+  <footer>Fait par Alexandre pour Papy!! Gros bisous</footer>
 
 </div>
+
+<script>
+  window.MathJax = { tex: { displayMath: [['$$','$$']], inlineMath: [['$','$']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 
 <script>
   var RHO=1.225, G=9.81;
@@ -208,8 +254,8 @@
 
     // sentence
     var msg;
-    if(p>0.3) msg='À <b>'+w+' km/h de face</b>, vous forcez comme dans une côte à <b>'+fr1(p)+' %</b>.';
-    else if(p<-0.3) msg='Le <b>vent de dos</b> vous pousse : comme une descente à <b>'+fr1(-p)+' %</b>.';
+    if(p>0.1) msg='À <b>'+w+' km/h de face</b>, on force comme dans une côte à <b>'+fr1(p)+' %</b>.';
+    else if(p<-0.1) msg='Le <b>vent de dos</b> pousse comme une descente à <b>'+fr1(-p)+' %</b>.';
     else msg='Ni vent ni pente : c\'est du plat.';
     $('sentence').innerHTML=msg;
 
